@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2020 RIL
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2020 O4SB
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
-
 <odoo>
     <record model="ir.ui.view" id="test_emailing_form_view">
         <field name="name">test.emailing.form</field>
@@ -9,26 +8,36 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name="generate_email" type="object" class="oe_highlight" string="Send Now"
-                            attrs="{'invisible': [('state', '=', 'done')]}"/>
-                    <field name="state" readonly="1" widget="statusbar"/>
+                    <button
+                        name="generate_email"
+                        type="object"
+                        class="oe_highlight"
+                        string="Send Now"
+                        attrs="{'invisible': [('state', '=', 'done')]}"
+                    />
+                    <field name="state" readonly="1" widget="statusbar" />
                 </header>
                 <sheet>
                     <group>
                         <group>
-                            <field name="subject"/>
+                            <field name="subject" />
                         </group>
                         <group>
-                            <field name="email_from"/>
-                            <field name="email_to"/>
+                            <field name="email_from" />
+                            <field name="email_to" />
                         </group>
                     </group>
                     <group>
-                        <field name="body_html"/>
+                        <field name="body_html" />
                     </group>
                 <group>
-                    <label for="attachment_ids" class="o_form_label"/>
-                    <field name="attachment_ids" widget="many2many_binary" string="Attach a file" nolabel="1"/>
+                    <label for="attachment_ids" class="o_form_label" />
+                    <field
+                            name="attachment_ids"
+                            widget="many2many_binary"
+                            string="Attach a file"
+                            nolabel="1"
+                        />
                     </group>
                 </sheet>
             </form>
@@ -40,9 +49,9 @@
         <field name="model">test.emailing</field>
         <field name="arch" type="xml">
             <search>
-                <field name="subject"/>
-                <field name="email_from"/>
-                <field name="email_to"/>
+                <field name="subject" />
+                <field name="email_from" />
+                <field name="email_to" />
             </search>
         </field>
     </record>
@@ -52,9 +61,9 @@
         <field name="model">test.emailing</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="subject"/>
-                <field name="email_from"/>
-                <field name="email_to"/>
+                <field name="subject" />
+                <field name="email_from" />
+                <field name="email_to" />
             </tree>
         </field>
     </record>
@@ -65,12 +74,16 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem name="Test Emailing" id="test_emailing_base_menu" groups="base.group_no_one"/>
+    <menuitem
+        name="Test Emailing"
+        id="test_emailing_base_menu"
+        groups="base.group_no_one"
+    />
 
     <record model="ir.ui.menu" id="test_emailing_menu">
         <field name="name">Send Test Email</field>
-        <field name="parent_id" ref="test_emailing_base_menu"/>
-        <field name="action" ref="test_emailing_act_window"/>
+        <field name="parent_id" ref="test_emailing_base_menu" />
+        <field name="action" ref="test_emailing_act_window" />
     </record>
 
 </odoo>

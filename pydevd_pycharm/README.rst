@@ -1,11 +1,6 @@
-{
-    "name": "PyDev.Debugger for PyCharm",
-    "version": "14.0.1.0.0",
-    "license": "AGPL-3",
-    "category": "Other",
-    "author": "Danny W. Adair, OdooNZ",
-    "website": "https://o4sb.com",
-    "summary": """
+pydevd_pycharm
+==============
+
     Start PyDev debugging for PyCharm
 
     1. Install pydevd-pycharm in your Odoo environment.
@@ -60,8 +55,3 @@
 
     * PYDEVD_PYCHARM_RETRY_SECONDS (default: "3")
     * PYDEVD_PYCHARM_RETRY_ATTEMPTS (default: "10")
-    """,
-    "depends": ["base"],
-    "auto_install": True,
-    "installable": True,
-}

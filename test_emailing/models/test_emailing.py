@@ -1,4 +1,4 @@
-# Copyright 2020 RIL
+# Copyright 2020 O4SB
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import base64
@@ -13,7 +13,7 @@ class TestEmailing(models.Model):
     _description = "Test Emailing"
     _rec_name = "subject"
 
-    subject = fields.Char("Subject", required=True)
+    subject = fields.Char(required=True)
     body_html = fields.Html(string="Body", sanitize_style=True)
     email_from = fields.Char("From")
     email_to = fields.Char("To")
@@ -31,10 +31,10 @@ class TestEmailing(models.Model):
         copy=False,
         default="draft",
     )
-    thread_id = fields.Integer("Thread Id")
+    thread_id = fields.Integer()
 
     def generate_email(self):
-        """ send email internally to mail alias
+        """send email internally to mail alias
         Issue: have to use body_alternative because encode body will cause
                  _message_parse_extract_payload to create fault attachment
                  in document
@@ -67,5 +67,5 @@ class TestEmailing(models.Model):
                 self.thread_id = thread
                 self.sudo().write({"state": "done"})
             return self.thread_id
-        except ValueError:
-            raise ValidationError(_("No alias found."))
+        except ValueError as exc:
+            raise ValidationError(_("No alias found.")) from exc

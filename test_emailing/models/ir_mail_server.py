@@ -1,4 +1,4 @@
-# Copyright 2020 RIL
+# Copyright 2020 O4SB
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import re
