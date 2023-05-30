@@ -1,17 +1,12 @@
-{
-    "name": "PyDev.Debugger for PyCharm",
-    "version": "16.0.1.0.0",
-    "license": "AGPL-3",
-    "category": "Other",
-    "author": "Danny W. Adair, OdooNZ",
-    "website": "https://o4sb.com",
-    "summary": """
+pydevd_pycharm
+==============
+
     Start PyDev debugging for PyCharm
 
     1. Install pydevd-pycharm in your Odoo environment.
        The version needs to match your PyCharm version.
 
-       For exameple, in PyCharm:
+       For example, in PyCharm:
        "Help -> About" shows
        "Build #PY-223.8617.48, built on January 25, 2023"
        In this case,
@@ -60,8 +55,3 @@
 
     * PYDEVD_PYCHARM_RETRY_SECONDS (default: "3")
     * PYDEVD_PYCHARM_RETRY_ATTEMPTS (default: "10")
-    """,
-    "depends": ["base"],
-    "auto_install": True,
-    "installable": True,
-}

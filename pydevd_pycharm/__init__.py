@@ -38,7 +38,10 @@ if os.environ.get("ENABLE_PYDEVD_PYCHARM") == "1":
                 if attempts_left == 0:
                     logger.error("Could not connect to Debug Server - is it running?")
                 else:
-                    logger.warning(f"No answer... will try again in {RETRY_SECONDS} seconds ({attempts_left} attempts left)")
+                    logger.warning(
+                        f"No answer... will try again in {RETRY_SECONDS} "
+                        f"seconds ({attempts_left} attempts left)"
+                    )
                     time.sleep(RETRY_SECONDS)
             else:
                 logger.info("PyDev.Debugger connected")
