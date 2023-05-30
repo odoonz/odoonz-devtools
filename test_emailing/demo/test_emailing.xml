@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2020 RIL
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo noupdate="1">
+
+
+    <record model="test.emailing" id="test_emailing_demo_1">
+        <field name="subject">Fax received</field>
+        <field name="body_html">
+            This is a faxmail message, please do not reply to this email.
+
+            A fax message was received as follows:
+
+            Sending Party: 068588460
+            Called Party: 062812589
+            Recording Time: 2020-04-30 09:44:32
+
+            Double-Click on the Attachment to view the fax message.
+        </field>
+        <field name="email_from">services@2talk.co.nz</field>
+        <field name="email_to">inbox-napier@roof.co.nz</field>
+    </record>
+
+
+</odoo>
