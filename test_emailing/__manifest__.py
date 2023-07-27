@@ -11,5 +11,4 @@
     "category": "Testing",
     "depends": ["mail"],
     "data": ["security/test_emailing.xml", "views/test_emailing.xml"],
-    "demo": ["demo/test_emailing.xml"],
 }
