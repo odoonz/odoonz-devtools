@@ -55,7 +55,6 @@ class TestEmailing(models.Model):
             email_to=[self.email_to],
             subject=self.subject,
             body=self.body_html,
-            body_alternative=self.body_html,
             attachments=attachments if attachments else None,
             subtype="html",
             subtype_alternative="html",
