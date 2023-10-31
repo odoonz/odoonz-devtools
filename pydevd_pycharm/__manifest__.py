@@ -9,6 +9,9 @@
     Start PyDev debugging for PyCharm
 
     1. Install pydevd-pycharm in your Odoo environment.
+       (you may want to do add it to `SERVER_WIDE_MODULES`
+       rather than installing it into a particular database)
+
        The version needs to match your PyCharm version.
 
        For exameple, in PyCharm:
@@ -62,6 +65,5 @@
     * PYDEVD_PYCHARM_RETRY_ATTEMPTS (default: "10")
     """,
     "depends": ["base"],
-    "auto_install": True,
     "installable": True,
 }
