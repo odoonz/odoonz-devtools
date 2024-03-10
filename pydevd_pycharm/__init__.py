@@ -10,6 +10,17 @@ RETRY_ATTEMPTS = int(os.environ.get("PYDEVD_PYCHARM_RETRY_ATTEMPTS", 10))
 logger = logging.getLogger(__name__)
 
 
+def get_subnet_addresses():
+    import socket
+
+    return socket.gethostbyname_ex(socket.gethostname())[-1]
+
+
+def get_ip_address(subnet):
+    parts = subnet.split(".")
+    return f"{parts[0]}.{parts[1]}.{parts[2]}.1"
+
+
 if os.environ.get("ENABLE_PYDEVD_PYCHARM") == "1":
     logger.info("Debugging with pydevd_pycharm enabled")
     try:
@@ -25,6 +36,7 @@ if os.environ.get("ENABLE_PYDEVD_PYCHARM") == "1":
         logger.info(f"Looking for Python Debug Server at {HOST}:{PORT}...")
         attempts_left = RETRY_ATTEMPTS + 1
         while attempts_left:
+            attempts_left -= 1
             try:
                 pydevd_pycharm.settrace(
                     HOST,
@@ -34,7 +46,6 @@ if os.environ.get("ENABLE_PYDEVD_PYCHARM") == "1":
                     suspend=False,
                 )
             except ConnectionError:
-                attempts_left -= 1
                 if attempts_left == 0:
                     logger.error("Could not connect to Debug Server - is it running?")
                 else:
@@ -43,6 +54,21 @@ if os.environ.get("ENABLE_PYDEVD_PYCHARM") == "1":
                         f"seconds ({attempts_left} attempts left)"
                     )
                     time.sleep(RETRY_SECONDS)
+            except OSError:
+                if attempts_left == 0:
+                    logger.error("Could not resolve debug host? Is the address correct")
+                for subnet in get_subnet_addresses():
+                    try:
+                        pydevd_pycharm.settrace(
+                            get_ip_address(subnet),
+                            port=PORT,
+                            stdoutToServer=True,
+                            stderrToServer=True,
+                            suspend=False,
+                        )
+                    except ConnectionError:
+                        logger.info(f"Tried and could not connect to {subnet}")
+                time.sleep(RETRY_SECONDS)
             else:
                 logger.info("PyDev.Debugger connected")
                 attempts_left = 0
