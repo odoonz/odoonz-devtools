@@ -74,11 +74,6 @@
     then the addon will try the `.1` address on every subnet of the
     container, one of which will be your host gateway leading to the
     debug server.
-
-    To speed things up, retrying subnets happens without delay.
-    You can adjust this with the environment variable:
-
-    * DOCKER_WORKAROUND_RETRY_SECONDS (default: "0")
     """,
     "depends": ["base"],
     "installable": True,
