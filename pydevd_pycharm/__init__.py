@@ -67,7 +67,7 @@ class PydevdPyCharm:
                         )
                         time.sleep(self.retry_seconds)
                 except OSError:
-                    logger.error(f"Could not resolve Debug Server {host} - is the address correct?")
+                    logger.error(f"Could not reach Debug Server {host} - is the address correct?")
                     attempts_left = 0
                 else:
                     logger.info("PyDev.Debugger connected")
