@@ -72,7 +72,11 @@ if os.environ.get("ENABLE_PYDEVD_PYCHARM") == "1":
                             logger.warning(f"Could not connect to {gateway_address}")
                     time.sleep(RETRY_SECONDS)
                 else:
-                    raise
+                    logger.warning(
+                        f"Could not resolve {HOST}... will try again in {RETRY_SECONDS} "
+                        f"seconds ({attempts_left} attempts left)"
+                    )
+                    time.sleep(RETRY_SECONDS)
             else:
                 logger.info("PyDev.Debugger connected")
                 attempts_left = 0
