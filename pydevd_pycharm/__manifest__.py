@@ -63,6 +63,22 @@
 
     * PYDEVD_PYCHARM_RETRY_SECONDS (default: "3")
     * PYDEVD_PYCHARM_RETRY_ATTEMPTS (default: "10")
+
+    Docker issue workaround:
+    If `host-gateway` is not automatically set to the correct address,
+    the file `/etc/hosts` will have an entry for "host.docker.internal"
+    that cannot be reached. If you enable
+
+    * PYDEVD_PYCHARM_DOCKER_WORKAROUND_TRY_SUBNETS (default: "0")
+
+    then the addon will try the `.1` address on every subnet of the
+    container, one of which will be your host gateway leading to the
+    debug server.
+
+    To speed things up, retrying subnets happens without delay.
+    You can adjust this with the environment variable:
+
+    * DOCKER_WORKAROUND_RETRY_SECONDS (default: "0")
     """,
     "depends": ["base"],
     "installable": True,

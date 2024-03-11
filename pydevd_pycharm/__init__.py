@@ -7,18 +7,16 @@ HOST = os.environ.get("PYDEVD_PYCHARM_HOST", "host.docker.internal")
 PORT = int(os.environ.get("PYDEVD_PYCHARM_PORT", 21000))
 RETRY_SECONDS = int(os.environ.get("PYDEVD_PYCHARM_RETRY_SECONDS", 3))
 RETRY_ATTEMPTS = int(os.environ.get("PYDEVD_PYCHARM_RETRY_ATTEMPTS", 10))
-DOCKER_WORKAROUND_TRY_SUBNETS = bool(os.environ.get("PYDEVD_PYCHARM_DOCKER_WORKAROUND_TRY_SUBNETS", False))
+DOCKER_WORKAROUND_TRY_SUBNETS = int(os.environ.get("PYDEVD_PYCHARM_DOCKER_WORKAROUND_TRY_SUBNETS", 0))
+DOCKER_WORKAROUND_RETRY_SECONDS = int(os.environ.get("PYDEVD_PYCHARM_DOCKER_WORKAROUND_RETRY_SECONDS", 0))
 
 logger = logging.getLogger(__name__)
 
 
-def _get_subnet_addresses():
-    return socket.gethostbyname_ex(socket.gethostname())[-1]
-
-
 def _get_gateway_address(subnet):
     parts = subnet.split(".")
-    return f"{parts[0]}.{parts[1]}.{parts[2]}.1"
+    parts[-1] = "1"
+    return ".".join(parts)
 
 
 if os.environ.get("ENABLE_PYDEVD_PYCHARM") == "1":
@@ -34,17 +32,19 @@ if os.environ.get("ENABLE_PYDEVD_PYCHARM") == "1":
         logger.info(f"Found pydevd_pycharm version {version}")
         logger.info(f"Looking for Python Debug Server at {HOST}:{PORT}...")
         attempts_left = RETRY_ATTEMPTS + 1
+        host = HOST
+        subnets = socket.gethostbyname_ex(socket.gethostname())[-1]
         while attempts_left:
-            attempts_left -= 1
             try:
                 pydevd_pycharm.settrace(
-                    HOST,
+                    host,
                     port=PORT,
                     stdoutToServer=True,
                     stderrToServer=True,
                     suspend=False,
                 )
             except ConnectionError:
+                attempts_left -= 1
                 if attempts_left == 0:
                     logger.error("Could not connect to Debug Server - is it running?")
                 else:
@@ -54,29 +54,23 @@ if os.environ.get("ENABLE_PYDEVD_PYCHARM") == "1":
                     )
                     time.sleep(RETRY_SECONDS)
             except OSError:
-                if DOCKER_WORKAROUND_TRY_SUBNETS:
+                if DOCKER_WORKAROUND_TRY_SUBNETS and subnets:
+                    subnet = subnets.pop(0)
+                    logger.info(f"Trying to connect on subnet of {subnet}")
+                    host = _get_gateway_address(subnet)
+                else:
                     if attempts_left == 0:
                         logger.error("Could not resolve Debug Server host - is the address correct?")
-                    for subnet in _get_subnet_addresses():
-                        logger.info(f"Trying to connect on subnet {subnet}")
-                        gateway_address = _get_gateway_address(subnet)
-                        try:
-                            pydevd_pycharm.settrace(
-                                gateway_address,
-                                port=PORT,
-                                stdoutToServer=True,
-                                stderrToServer=True,
-                                suspend=False,
-                            )
-                        except ConnectionError:
-                            logger.warning(f"Could not connect to {gateway_address}")
-                    time.sleep(RETRY_SECONDS)
-                else:
-                    logger.warning(
-                        f"Could not resolve {HOST}... will try again in {RETRY_SECONDS} "
-                        f"seconds ({attempts_left} attempts left)"
-                    )
-                    time.sleep(RETRY_SECONDS)
+                    else:
+                        attempts_left -= 1
+                        logger.warning(
+                            f"Could not resolve {HOST}... will try again in {RETRY_SECONDS} "
+                            f"seconds ({attempts_left} attempts left)"
+                        )
+                        if DOCKER_WORKAROUND_TRY_SUBNETS:
+                            time.sleep(DOCKER_WORKAROUND_RETRY_SECONDS)
+                        else:
+                            time.sleep(RETRY_SECONDS)
             else:
                 logger.info("PyDev.Debugger connected")
                 attempts_left = 0
