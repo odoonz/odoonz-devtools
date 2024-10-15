@@ -64,7 +64,7 @@ pydevd_pycharm
     the file `/etc/hosts` will have an entry for "host.docker.internal"
     that cannot be reached. If you enable
 
-    * PYDEVD_PYCHARM_DOCKER_WORKAROUND_TRY_SUBNETS (default: "0")
+    * PYDEVD_PYCHARM_DOCKER_WORKAROUND_TRY_SUBNETS (default: "1")
 
     then the addon will try the `.1` address on every subnet of the
     container, one of which will be your host gateway leading to the
