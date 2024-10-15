@@ -10,7 +10,10 @@
     <record id="test_emailing_create_uid_rule" model="ir.rule">
         <field name="name">test.emailing: create uid</field>
         <field name="model_id" ref="model_test_emailing" />
-        <field name="groups" eval="[(4, ref('test_emailing.group_test_emailing_user'))]" />
+        <field
+            name="groups"
+            eval="[(4, ref('test_emailing.group_test_emailing_user'))]"
+        />
         <field name="domain_force">[('create_uid', '=', user.id)]</field>
     </record>
 

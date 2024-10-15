@@ -13,6 +13,6 @@
     "data": [
         "security/test_emailing.xml",
         "security/ir.model.access.csv",
-        "views/test_emailing.xml"
+        "views/test_emailing.xml",
     ],
 }

@@ -7,7 +7,9 @@ HOST = os.environ.get("PYDEVD_PYCHARM_HOST", "host.docker.internal")
 PORT = int(os.environ.get("PYDEVD_PYCHARM_PORT", 21000))
 RETRY_SECONDS = int(os.environ.get("PYDEVD_PYCHARM_RETRY_SECONDS", 3))
 RETRY_ATTEMPTS = int(os.environ.get("PYDEVD_PYCHARM_RETRY_ATTEMPTS", 10))
-DOCKER_WORKAROUND_TRY_SUBNETS = int(os.environ.get("PYDEVD_PYCHARM_DOCKER_WORKAROUND_TRY_SUBNETS", 1))
+DOCKER_WORKAROUND_TRY_SUBNETS = int(
+    os.environ.get("PYDEVD_PYCHARM_DOCKER_WORKAROUND_TRY_SUBNETS", 1)
+)
 
 logger = logging.getLogger(__name__)
 
@@ -20,15 +22,16 @@ class PydevdPyCharm:
         return ".".join(parts)
 
     def __init__(
-            self,
-            host=HOST,
-            port=PORT,
-            retry_seconds=RETRY_SECONDS,
-            retry_attempts=RETRY_ATTEMPTS,
-            docker_workaround_try_subnets=DOCKER_WORKAROUND_TRY_SUBNETS,
+        self,
+        host=HOST,
+        port=PORT,
+        retry_seconds=RETRY_SECONDS,
+        retry_attempts=RETRY_ATTEMPTS,
+        docker_workaround_try_subnets=DOCKER_WORKAROUND_TRY_SUBNETS,
     ):
         try:
             import pydevd_pycharm as pydevd_pycharm_module
+
             self.debugger = pydevd_pycharm_module
             logger.info(f"Found pydevd_pycharm version {self.debugger.__version__}")
             self.installed = True
@@ -59,7 +62,9 @@ class PydevdPyCharm:
                 except ConnectionError:
                     attempts_left -= 1
                     if attempts_left == 0:
-                        logger.error(f"Could not connect to Debug Server {host} - is it running?")
+                        logger.error(
+                            f"Could not connect to Debug Server {host} - is it running?"
+                        )
                     else:
                         logger.warning(
                             f"No answer... will try again in {self.retry_seconds} "
@@ -67,7 +72,9 @@ class PydevdPyCharm:
                         )
                         time.sleep(self.retry_seconds)
                 except OSError:
-                    logger.error(f"Could not reach Debug Server {host} - is the address correct?")
+                    logger.error(
+                        f"Could not reach Debug Server {host} - is the address correct?"
+                    )
                     attempts_left = 0
                 else:
                     logger.info("PyDev.Debugger connected")

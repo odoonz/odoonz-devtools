@@ -34,12 +34,12 @@ class TestEmailing(models.Model):
     thread_id = fields.Integer()
 
     def generate_email(self):
-        self.check_access('write')
+        self.check_access("write")
         return self._generate_email()
 
     def reset_to_draft(self):
         self.thread_id = False
-        self.state = 'draft'
+        self.state = "draft"
 
     def _generate_email(self):
         """send email internally to mail alias
