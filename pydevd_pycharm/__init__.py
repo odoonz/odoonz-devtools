@@ -7,7 +7,7 @@ HOST = os.environ.get("PYDEVD_PYCHARM_HOST", "host.docker.internal")
 PORT = int(os.environ.get("PYDEVD_PYCHARM_PORT", 21000))
 RETRY_SECONDS = int(os.environ.get("PYDEVD_PYCHARM_RETRY_SECONDS", 3))
 RETRY_ATTEMPTS = int(os.environ.get("PYDEVD_PYCHARM_RETRY_ATTEMPTS", 10))
-DOCKER_WORKAROUND_TRY_SUBNETS = int(os.environ.get("PYDEVD_PYCHARM_DOCKER_WORKAROUND_TRY_SUBNETS", 0))
+DOCKER_WORKAROUND_TRY_SUBNETS = int(os.environ.get("PYDEVD_PYCHARM_DOCKER_WORKAROUND_TRY_SUBNETS", 1))
 
 logger = logging.getLogger(__name__)
 

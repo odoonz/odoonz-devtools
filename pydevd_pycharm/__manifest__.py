@@ -1,6 +1,6 @@
 {
     "name": "PyDev.Debugger for PyCharm",
-    "version": "16.0.1.0.0",
+    "version": "18.1.0.0",
     "license": "AGPL-3",
     "category": "Other",
     "author": "Danny W. Adair, OdooNZ",
