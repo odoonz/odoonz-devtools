@@ -5,10 +5,14 @@
     "name": "Test Emailing",
     "summary": """
         Emailing within system for test purpose""",
-    "version": "16.0.1.0.0",
+    "version": "18.1.0.0",
     "license": "AGPL-3",
     "author": "Open For Small Business Ltd, OdooNZ",
     "category": "Testing",
     "depends": ["mail"],
-    "data": ["security/test_emailing.xml", "views/test_emailing.xml"],
+    "data": [
+        "security/test_emailing.xml",
+        "security/ir.model.access.csv",
+        "views/test_emailing.xml"
+    ],
 }

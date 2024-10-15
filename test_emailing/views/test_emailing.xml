@@ -13,7 +13,14 @@
                         type="object"
                         class="oe_highlight"
                         string="Send Now"
-                        attrs="{'invisible': [('state', '=', 'done')]}"
+                        invisible="state == 'done'"
+                    />
+                    <button
+                        name="reset_to_draft"
+                        type="object"
+                        class="oe_highlight"
+                        string="Reset"
+                        invisible="state == 'draft'"
                     />
                     <field name="state" readonly="1" widget="statusbar" />
                 </header>
@@ -21,8 +28,6 @@
                     <group>
                         <group>
                             <field name="subject" />
-                        </group>
-                        <group>
                             <field name="email_from" />
                             <field name="email_to" />
                         </group>
@@ -56,22 +61,22 @@
         </field>
     </record>
 
-    <record model="ir.ui.view" id="test_emailing_tree_view">
-        <field name="name">test.emailing.tree (in test_emailing)</field>
+    <record model="ir.ui.view" id="test_emailing_list_view">
+        <field name="name">test.emailing.list (in test_emailing)</field>
         <field name="model">test.emailing</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="subject" />
                 <field name="email_from" />
                 <field name="email_to" />
-            </tree>
+            </list>
         </field>
     </record>
 
     <record model="ir.actions.act_window" id="test_emailing_act_window">
         <field name="name">Test Emailing</field>
         <field name="res_model">test.emailing</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <menuitem

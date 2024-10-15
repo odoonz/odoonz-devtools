@@ -34,6 +34,14 @@ class TestEmailing(models.Model):
     thread_id = fields.Integer()
 
     def generate_email(self):
+        self.check_access('write')
+        return self._generate_email()
+
+    def reset_to_draft(self):
+        self.thread_id = False
+        self.state = 'draft'
+
+    def _generate_email(self):
         """send email internally to mail alias
         Issue: have to use body_alternative because encode body will cause
                  _message_parse_extract_payload to create fault attachment
