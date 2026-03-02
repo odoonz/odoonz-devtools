@@ -58,7 +58,7 @@ class TestEmailing(models.Model):
                         attachment["mimetype"],
                     )
                 ]
-        email = self.env["ir.mail_server"].build_email(
+        email = self.env["ir.mail_server"]._build_email__(
             email_from=self.email_from,
             email_to=[self.email_to],
             subject=self.subject,
