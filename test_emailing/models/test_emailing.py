@@ -23,6 +23,7 @@ class TestEmailing(models.Model):
         "test_emailing_id",
         "attachment_id",
         string="Attachments",
+        bypass_search_access=True,
     )
     state = fields.Selection(
         [("draft", "Draft"), ("done", "Sent")],
